@@ -6,9 +6,3 @@ services:
     envVars:
       - key: SECRET_KEY
         generateValue: true
-      - key: GOOGLE_CLIENT_ID
-        sync: false          # you paste this in the Render dashboard
-      - key: GOOGLE_CLIENT_SECRET
-        sync: false          # you paste this in the Render dashboard
-      - key: ALLOWED_EMAILS
-        sync: false          # comma-separated list, or leave blank for any Google account

@@ -1,7 +1,6 @@
 """
-core/engine.py  –  Image processing engine (no Flask imports).
+core/engine.py  –  Pattern Image Asset Processor engine (no auth).
 """
-
 import os, re, shutil, subprocess, tempfile, threading, time, urllib.parse, zipfile
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -19,38 +18,35 @@ SHEET_PXM   = "PXM advanced search"
 SHEET_INST  = "Instructions"
 
 IMAGE_EXTS = {".jpg",".jpeg",".png",".bmp",".gif",".tif",".tiff",".webp",".jfif"}
-
-CONTENT_TYPE_EXT = {
+CT_EXT = {
     "application/pdf":".pdf","image/jpeg":".jpg","image/png":".png",
     "image/webp":".webp","image/gif":".gif","image/bmp":".bmp",
     "image/tiff":".tif","image/jfif":".jpg",
 }
 
-_counter=0; _counter_lock=threading.Lock()
-_session=None; _session_lock=threading.Lock()
+_cnt=0; _cnt_lock=threading.Lock()
+_sess=None; _sess_lock=threading.Lock()
 
-def _tmp_name():
-    global _counter
-    with _counter_lock:
-        _counter+=1
-        return f"img_{int(time.time()*1000)}_{_counter}"
+def _uid():
+    global _cnt
+    with _cnt_lock:
+        _cnt+=1
+        return f"img_{int(time.time()*1000)}_{_cnt}"
 
-def _sess():
-    global _session
-    if _session is None:
-        with _session_lock:
-            if _session is None:
-                s=requests.Session(); s.headers.update({"User-Agent":"Mozilla/5.0"}); _session=s
-    return _session
+def _get_sess():
+    global _sess
+    if _sess is None:
+        with _sess_lock:
+            if _sess is None:
+                s=requests.Session(); s.headers.update({"User-Agent":"Mozilla/5.0"}); _sess=s
+    return _sess
 
 def _trim(v): return str(v).strip() if v is not None else ""
 def _clean(s):
     for c in r'\/:*?"<>|': s=s.replace(c,"")
     return s or "UNKNOWN"
 def _ext(p): return os.path.splitext(p)[1].lower()
-def _normext(e):
-    e=e.strip().lower()
-    return ("."+e) if e and not e.startswith(".") else e
+def _normext(e): e=e.strip().lower(); return ("."+e) if e and not e.startswith(".") else e
 def _rm(p):
     try:
         if p and os.path.exists(p): os.remove(p)
@@ -61,12 +57,9 @@ def parse_dim(txt):
     if "x" in txt:
         parts=txt.split("x")
         if len(parts)!=2: return 0
-        try:
-            w,h=int(parts[0]),int(parts[1])
-            return max(w,h) if w>0 and h>0 else 0
+        try: w,h=int(parts[0]),int(parts[1]); return max(w,h) if w>0 and h>0 else 0
         except: return 0
-    try:
-        v=int(txt); return v if v>0 else 0
+    try: v=int(txt); return v if v>0 else 0
     except: return 0
 
 def is_valid_master_id(s):
@@ -75,9 +68,9 @@ def is_valid_master_id(s):
 def find_magick():
     return shutil.which("magick") or shutil.which("convert") or ""
 
-def _magick(magick,args):
+def _run_magick(magick, args):
     try:
-        r=subprocess.run([magick]+args,capture_output=True,timeout=120)
+        r=subprocess.run([magick]+args, capture_output=True, timeout=120)
         return r.returncode==0
     except: return False
 
@@ -86,36 +79,36 @@ def _dims(p):
         with Image.open(p) as img: return img.size
     except: return (0,0)
 
-def _to_square_jpg(magick,src,dst,mn,mx):
+def _to_square_jpg(magick, src, dst, mn, mx):
     if os.path.exists(dst): os.remove(dst)
     w,h=_dims(src)
     if w<=0 or h<=0: return False,""
     if w<mn or h<mn:
         t,action=mn,"UPSIZED"
-        args=[src,"-auto-orient","-background","white","-alpha","remove","-alpha","off",
-              "-resize",f"{t}x{t}","-gravity","center","-extent",f"{t}x{t}",
-              "-colorspace","sRGB","-strip","-quality","92",dst]
     elif w>mx or h>mx:
         t,action=mx,"DOWNSIZED"
-        args=[src,"-auto-orient","-background","white","-alpha","remove","-alpha","off",
-              "-resize",f"{t}x{t}","-gravity","center","-extent",f"{t}x{t}",
-              "-colorspace","sRGB","-strip","-quality","92",dst]
     else:
         action="ORIGINAL"
         args=[src,"-auto-orient","-background","white","-alpha","remove","-alpha","off",
               "-gravity","center","-extent","%[fx:max(w,h)]x%[fx:max(w,h)]",
               "-colorspace","sRGB","-strip","-quality","92",dst]
-    ok=_magick(magick,args) and os.path.isfile(dst)
+        ok=_run_magick(magick,args) and os.path.isfile(dst)
+        return ok,action
+    args=[src,"-auto-orient","-background","white","-alpha","remove","-alpha","off",
+          "-resize",f"{t}x{t}","-gravity","center","-extent",f"{t}x{t}",
+          "-colorspace","sRGB","-strip","-quality","92",dst]
+    ok=_run_magick(magick,args) and os.path.isfile(dst)
     return ok,action
 
-def _to_jpg(magick,src,dst):
+def _to_jpg(magick, src, dst):
     if os.path.exists(dst): os.remove(dst)
-    return _magick(magick,[src,"-auto-orient","-background","white","-alpha","remove",
-                            "-alpha","off","-colorspace","sRGB","-strip","-quality","92",dst]) and os.path.isfile(dst)
+    return _run_magick(magick,[src,"-auto-orient","-background","white",
+                               "-alpha","remove","-alpha","off",
+                               "-colorspace","sRGB","-strip","-quality","92",dst]) and os.path.isfile(dst)
 
-def _to_pdf(magick,src,dst):
+def _to_pdf(magick, src, dst):
     if os.path.exists(dst): os.remove(dst)
-    return _magick(magick,[src,dst]) and os.path.isfile(dst)
+    return _run_magick(magick,[src,dst]) and os.path.isfile(dst)
 
 def _gdrive(url):
     url=url.strip(); fid=""
@@ -135,7 +128,7 @@ def _det_ext(orig,ct,src):
     e=_ext(orig)
     if e: return _normext(e)
     ct=ct.lower().split(";")[0].strip()
-    for k,v in CONTENT_TYPE_EXT.items():
+    for k,v in CT_EXT.items():
         if k in ct: return v
     u=src.split("?")[0].split("#")[0]; e=_ext(u)
     return _normext(e) if e and len(e)<=10 else ""
@@ -145,11 +138,11 @@ def _sniff_pdf(p):
         with open(p,"rb") as f: return f.read(4)==b"%PDF"
     except: return False
 
-def _download(url,tmp):
+def _download(url, tmp):
     final=_gdrive(url); last=None
     for attempt in range(MAX_RETRIES+1):
         try:
-            r=_sess().get(final,timeout=HTTP_TIMEOUT,allow_redirects=True,stream=True)
+            r=_get_sess().get(final,timeout=HTTP_TIMEOUT,allow_redirects=True,stream=True)
             r.raise_for_status()
             ct=r.headers.get("Content-Type","").lower()
             if "text/html" in ct or "application/xhtml" in ct:
@@ -160,7 +153,7 @@ def _download(url,tmp):
                 m=re.search(r'filename="?([^";]+)"?',cd)
                 if m: orig=m.group(1).strip()
             e=_det_ext(orig,ct,final) or ".bin"
-            lp=os.path.join(tmp,_tmp_name()+e)
+            lp=os.path.join(tmp,_uid()+e)
             with open(lp,"wb") as f:
                 for chunk in r.iter_content(chunk_size=131072):
                     if chunk: f.write(chunk)
@@ -189,9 +182,10 @@ def _process_one(task):
         elif atype=="sds":
             dst=os.path.join(out,fname)
             if se==".pdf" or "application/pdf" in ct or _sniff_pdf(tp):
-                res["ok"]=bool(shutil.copy2(tp,dst) or os.path.isfile(dst)); res["ext"]=".pdf"
+                res["ok"]=bool(shutil.copy2(tp,dst)) or os.path.isfile(dst)
+                res["ext"]=".pdf"
             elif se in IMAGE_EXTS or "image/" in ct:
-                tj=os.path.join(tmp,_tmp_name()+".jpg")
+                tj=os.path.join(tmp,_uid()+".jpg")
                 if _to_jpg(magick,tp,tj): res["ok"]=_to_pdf(magick,tj,dst); _rm(tj)
                 res["ext"]=".pdf"
             else: res["error"]=f"SDS not PDF/image ({se})"
@@ -235,10 +229,11 @@ def _rha(ws,row,cis,cie,cls_,cle,csds):
                 if _trim(ws.cell(row,c).value): return True
     return bool(csds and _trim(ws.cell(row,csds).value))
 
-# ── validation ────────────────────────────────────────────
+# ── Validation ────────────────────────────────────────────
 def validate_workbook(wb, upload_choice):
     errors=[]
-    needed=[SHEET_IMAGE,SHEET_INST]+([SHEET_PXM] if upload_choice=="1" else [])
+    needed=[SHEET_IMAGE,SHEET_INST]
+    if upload_choice=="1": needed.append(SHEET_PXM)
     for s in needed:
         if s not in wb.sheetnames: errors.append(f"Sheet '{s}' not found.")
     if errors: return errors
@@ -273,7 +268,7 @@ def validate_workbook(wb, upload_choice):
     if len(bad)>20: errors.append(f"…and {len(bad)-20} more row errors.")
     return errors
 
-# ── main job ──────────────────────────────────────────────
+# ── Main job ──────────────────────────────────────────────
 def run_job(excel_path, upload_choice, min_size, max_size, progress_cb=None):
     magick=find_magick()
     if not magick: return {"error":"ImageMagick not found on server."}
@@ -286,7 +281,7 @@ def run_job(excel_path, upload_choice, min_size, max_size, progress_cb=None):
     csds=_fc(ws,"SDS URL")
     cols=[c for c in [cm,cmpn,cc,ca,cis,cie,cls_,cle,csds] if c]
     lr=_mlr(ws,cols)
-    jid=_tmp_name()
+    jid=_uid()
     tmp_dir=tempfile.mkdtemp(prefix=f"tmp_{jid}_")
     out_dir=tempfile.mkdtemp(prefix=f"out_{jid}_")
     tasks=[]; seen=set(); dupes=0
@@ -323,8 +318,7 @@ def run_job(excel_path, upload_choice, min_size, max_size, progress_cb=None):
             fname=(f"{mid}_{mpn}_{country}_SDS.pdf" if upload_choice=="1" else f"{asin}_SDS.pdf")
             _add(url,fname,"sds")
     total=len(tasks); downloaded=0; failed=0
-    upsized=0; downsized=0; kept=0
-    ftypes=defaultdict(int); errs=[]
+    upsized=0; downsized=0; kept=0; ftypes=defaultdict(int); errs=[]
     pxm_lock=threading.Lock(); pxm_entries=[]; pxm_seen=set(); non_jpg=set()
     def rec_pxm(fname,row,is_nj):
         k=fname.upper()
