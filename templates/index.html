@@ -9,11 +9,11 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --blue:#2B6EF5;--blue-lt:#4D8BFF;--blue-dk:#1A4FCC;
-  --navy:#0A0F1E;--navy2:#0E1628;--navy3:#121C35;--navy4:#172040;
+  --navy:#0A0F1E;--navy2:#0E1628;--navy3:#121C35;
   --steel:#1E2C4F;--bdr:#1F2D52;--bdr-lt:#263560;
   --white:#FFFFFF;--off:#E8EDF8;--muted:#8A9BC4;--faint:#4A5A82;
   --green:#00C48C;--green-bg:#002E21;--green-bd:#005240;
-  --amber:#F59E0B;--red:#EF4444;
+  --amber:#F59E0B;--red:#EF4444;--red-bg:#3B0A0A;
   --grad:linear-gradient(135deg,#2B6EF5 0%,#1A3FCC 60%,#0D2494 100%);
   --grad-card:linear-gradient(145deg,#0E1628 0%,#121C35 100%);
   --grad-hero:linear-gradient(135deg,#0A0F1E 0%,#0E1A3A 50%,#0A1230 100%);
@@ -25,8 +25,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   background-image:linear-gradient(rgba(43,110,245,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(43,110,245,.04) 1px,transparent 1px);
   background-size:40px 40px}
 
-/* ─── TOPBAR ─────────────────────────────────── */
-.topbar{position:sticky;top:0;z-index:100;background:rgba(10,15,30,.95);
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:100;background:rgba(10,15,30,.96);
   backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);
   padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between}
 .topbar::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
@@ -44,33 +44,30 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .pill.err{background:rgba(239,68,68,.1);color:#FCA5A5;border:1px solid rgba(239,68,68,.2)}
 .pill-dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
 
-/* ─── HERO ───────────────────────────────────── */
+/* HERO */
 .hero{position:relative;z-index:1;background:var(--grad-hero);
   border-bottom:1px solid var(--bdr);padding:40px 32px 36px;overflow:hidden}
 .hero::before{content:'';position:absolute;top:-80px;right:-60px;width:380px;height:380px;border-radius:50%;
   background:radial-gradient(circle,rgba(43,110,245,.16) 0%,transparent 70%);pointer-events:none}
-.hero::after{content:'';position:absolute;bottom:-60px;left:15%;width:220px;height:220px;border-radius:50%;
-  background:radial-gradient(circle,rgba(43,110,245,.08) 0%,transparent 70%);pointer-events:none}
 .hero-inner{max-width:780px;margin:0 auto;position:relative;z-index:2}
 .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--blue-lt);
   letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .eyebrow::before{content:'';width:24px;height:1px;background:var(--blue-lt)}
-.hero h1{font-size:clamp(22px,3.5vw,34px);font-weight:700;color:var(--white);
-  letter-spacing:-.5px;line-height:1.2;margin-bottom:10px}
+.hero h1{font-size:clamp(22px,3.5vw,34px);font-weight:700;color:var(--white);letter-spacing:-.5px;line-height:1.2;margin-bottom:10px}
 .hero h1 span{color:var(--blue-lt)}
-.hero-sub{font-size:13px;color:var(--muted);line-height:1.65;max-width:560px}
+.hero-sub{font-size:13px;color:var(--muted);line-height:1.65;max-width:580px}
 
-/* ─── DISCLAIMER ─────────────────────────────── */
+/* NOTICE */
 .notice{position:relative;z-index:1;background:rgba(245,158,11,.06);
   border-bottom:1px solid rgba(245,158,11,.2);padding:10px 32px;
   display:flex;align-items:flex-start;gap:10px}
 .notice-text{font-size:12px;color:rgba(245,158,11,.9);line-height:1.55;font-family:'IBM Plex Mono',monospace}
 .notice-text strong{color:var(--amber)}
 
-/* ─── MAIN CONTENT ───────────────────────────── */
+/* MAIN */
 .wrap{max-width:780px;margin:0 auto;padding:36px 32px 120px;position:relative;z-index:1}
 
-/* ─── PROGRESS STEPPER ───────────────────────── */
+/* STEPPER */
 .stepper{display:flex;align-items:center;margin-bottom:36px;
   background:var(--navy3);border:1px solid var(--bdr);border-radius:var(--rxl);
   padding:18px 28px;position:relative;overflow:hidden}
@@ -84,7 +81,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .st-lbl{font-size:10px;color:var(--muted);white-space:nowrap;letter-spacing:.3px}
 .st-line{flex:1;height:1px;background:var(--bdr);margin:0 8px;margin-top:-17px;min-width:12px}
 
-/* ─── CARDS ──────────────────────────────────── */
+/* CARDS */
 .card{background:var(--grad-card);border:1px solid var(--bdr);
   border-radius:var(--rxl);padding:26px;margin-bottom:16px;position:relative;overflow:hidden}
 .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--grad);opacity:.55}
@@ -94,7 +91,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .card-title{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;
   letter-spacing:1.3px;font-family:'IBM Plex Mono',monospace}
 
-/* ─── TEMPLATE DOWNLOAD CARD ─────────────────── */
+/* TEMPLATE BANNER */
 .tmpl-card{display:flex;align-items:center;justify-content:space-between;
   background:rgba(43,110,245,.06);border:1px solid rgba(43,110,245,.2);
   border-radius:var(--rl);padding:18px 22px;margin-bottom:16px;gap:16px;flex-wrap:wrap}
@@ -110,7 +107,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   box-shadow:0 4px 14px rgba(43,110,245,.3)}
 .btn-dl:hover{box-shadow:0 4px 22px rgba(43,110,245,.5);transform:translateY(-1px)}
 
-/* ─── STEP 1 INPUTS ──────────────────────────── */
+/* INPUTS */
 .target-group{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .tog{cursor:pointer;background:rgba(255,255,255,.02);border:1px solid var(--bdr-lt);
   border-radius:var(--rl);padding:16px;display:flex;align-items:flex-start;gap:10px;transition:.2s}
@@ -123,7 +120,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .tog-body strong{display:block;font-size:13px;color:var(--white);font-weight:600;margin-bottom:4px}
 .tog-body small{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--faint);line-height:1.5}
 
-.dim-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+/* 3-col grid for dimensions + workers */
+.settings-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:20px}
 .fl{display:block;font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;
   letter-spacing:.8px;font-family:'IBM Plex Mono',monospace;margin-bottom:7px}
 .fc{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--bdr-lt);
@@ -131,12 +129,22 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   font-size:13px;outline:none;transition:.18s;-moz-appearance:textfield}
 .fc::-webkit-inner-spin-button{-webkit-appearance:none}
 .fc:focus{border-color:var(--blue);background:rgba(43,110,245,.05)}
-.fc-hint{font-size:10px;color:var(--faint);margin-top:5px;font-family:'IBM Plex Mono',monospace}
+.fc-hint{font-size:10px;color:var(--faint);margin-top:5px;font-family:'IBM Plex Mono',monospace;line-height:1.4}
+
+/* workers input special highlight */
+.workers-field .fl{color:var(--green)}
+.workers-field .fc{border-color:rgba(0,196,140,.3);background:rgba(0,196,140,.04)}
+.workers-field .fc:focus{border-color:var(--green);background:rgba(0,196,140,.07)}
+.workers-field .fc-hint{color:var(--green);opacity:.8}
+
 .info-strip{background:rgba(43,110,245,.06);border:1px solid rgba(43,110,245,.18);
   border-radius:var(--r);padding:10px 14px;margin-top:16px;
   font-size:11px;color:var(--faint);line-height:1.6;font-family:'IBM Plex Mono',monospace}
+.workers-tip{background:rgba(0,196,140,.06);border:1px solid rgba(0,196,140,.2);
+  border-radius:var(--r);padding:10px 14px;margin-top:10px;
+  font-size:11px;color:rgba(0,196,140,.85);line-height:1.6;font-family:'IBM Plex Mono',monospace}
 
-/* ─── DROP ZONE ──────────────────────────────── */
+/* DROP ZONE */
 .dropzone{border:1.5px dashed var(--bdr-lt);border-radius:var(--rl);padding:40px 24px;
   text-align:center;cursor:pointer;transition:.2s;background:rgba(255,255,255,.02);position:relative}
 .dropzone:hover,.dropzone.drag{border-color:var(--blue);background:rgba(43,110,245,.05)}
@@ -149,7 +157,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 #fname-display{display:none;font-family:'IBM Plex Mono',monospace;font-size:12px;
   color:var(--green);margin-top:10px;font-weight:500}
 
-/* ─── ERRORS ─────────────────────────────────── */
+/* ERRORS */
 .err-box{display:none;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);
   border-radius:var(--r);padding:14px 16px;margin-top:14px}
 .err-title{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#F87171;
@@ -159,14 +167,13 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   padding:3px 0;border-bottom:1px solid rgba(239,68,68,.1);line-height:1.5}
 .err-list li:last-child{border:none}
 
-/* ─── BUTTONS ────────────────────────────────── */
+/* BUTTONS */
 .btn-primary{background:var(--grad);border:none;color:#fff;padding:13px 24px;
   border-radius:var(--r);font-size:13px;font-weight:600;cursor:pointer;
   font-family:'Sora',sans-serif;transition:.18s;width:100%;letter-spacing:.3px;
   box-shadow:0 4px 18px rgba(43,110,245,.3);margin-top:4px}
 .btn-primary:hover:not(:disabled){box-shadow:0 4px 26px rgba(43,110,245,.5);transform:translateY(-1px)}
-.btn-primary:disabled{background:var(--steel);color:var(--faint);cursor:not-allowed;
-  box-shadow:none;transform:none}
+.btn-primary:disabled{background:var(--steel);color:var(--faint);cursor:not-allowed;box-shadow:none;transform:none}
 .btn-secondary{background:transparent;border:1px solid var(--bdr-lt);color:var(--muted);
   padding:10px 18px;border-radius:var(--r);font-size:12px;font-weight:500;
   cursor:pointer;font-family:'Sora',sans-serif;transition:.18s;flex:1}
@@ -175,9 +182,13 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   color:var(--green);padding:13px 24px;border-radius:var(--r);font-size:13px;
   font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;transition:.18s;flex:1}
 .btn-success:hover{background:rgba(0,196,140,.24);box-shadow:0 4px 20px rgba(0,196,140,.2)}
-.btn-row{display:flex;gap:10px;margin-top:4px}
+.btn-danger{background:rgba(239,68,68,.14);border:1px solid rgba(239,68,68,.3);
+  color:#F87171;padding:13px 24px;border-radius:var(--r);font-size:13px;
+  font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;transition:.18s;flex:1}
+.btn-danger:hover{background:rgba(239,68,68,.24);box-shadow:0 4px 20px rgba(239,68,68,.15)}
+.btn-row{display:flex;gap:10px;margin-top:4px;flex-wrap:wrap}
 
-/* ─── PROGRESS ───────────────────────────────── */
+/* PROGRESS */
 .prog-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
 .prog-label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)}
 .prog-pct{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--blue-lt);font-weight:500}
@@ -185,8 +196,12 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .prog-fill{height:100%;background:var(--grad);border-radius:2px;width:0%;transition:width .35s}
 .prog-file{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--faint);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.workers-badge{display:inline-flex;align-items:center;gap:6px;
+  font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--green);
+  background:rgba(0,196,140,.1);border:1px solid rgba(0,196,140,.2);
+  border-radius:6px;padding:4px 10px;margin-top:10px}
 
-/* ─── RESULTS ────────────────────────────────── */
+/* RESULTS */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
 .stat{background:var(--navy2);border:1px solid var(--bdr);border-radius:var(--rl);
   padding:16px 18px;position:relative;overflow:hidden}
@@ -201,20 +216,35 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   padding:8px 12px;text-align:left;border-bottom:1px solid var(--bdr)}
 .resize-tbl th{color:var(--faint);text-transform:uppercase;letter-spacing:.07em}
 .resize-tbl td:last-child{text-align:right;color:var(--blue-lt);font-weight:500}
-.pxm-scroll{max-height:180px;overflow-y:auto;background:var(--navy);
-  border:1px solid var(--bdr);border-radius:var(--r);padding:10px 14px;margin-top:10px}
-.pxm-scroll p{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--faint);
-  padding:2px 0;border-bottom:1px solid var(--bdr);line-height:1.5}
-.pxm-scroll p:last-child{border:none}
 
-/* ─── FOOTER ─────────────────────────────────── */
+/* FAIL TABLE */
+.fail-section{background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.2);
+  border-radius:var(--rl);padding:18px;margin-top:16px}
+.fail-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+.fail-title{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#F87171;font-weight:600}
+.fail-tbl{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:11px}
+.fail-tbl th{color:var(--faint);text-transform:uppercase;letter-spacing:.07em;
+  padding:6px 10px;border-bottom:1px solid rgba(239,68,68,.2);text-align:left}
+.fail-tbl td{padding:7px 10px;border-bottom:1px solid rgba(239,68,68,.1);
+  color:#FCA5A5;vertical-align:top;line-height:1.5}
+.fail-tbl td.url-cell{max-width:280px;word-break:break-all;color:#fbb0b0}
+.fail-tbl td.reason-cell{color:#fca5a5}
+.fail-tbl tr:last-child td{border:none}
+
+/* PXM */
+.pxm-list{max-height:180px;overflow-y:auto;background:var(--navy);
+  border:1px solid var(--bdr);border-radius:var(--r);padding:10px 14px;margin-top:10px}
+.pxm-list p{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--faint);
+  padding:2px 0;border-bottom:1px solid var(--bdr)}
+.pxm-list p:last-child{border:none}
+
+/* FOOTER */
 .footer{position:fixed;bottom:0;left:0;right:0;z-index:50;
   background:rgba(10,15,30,.97);border-top:1px solid var(--bdr);
   padding:10px 32px;display:flex;align-items:center;justify-content:space-between;
   backdrop-filter:blur(20px)}
 .f-logo{display:flex;align-items:center;gap:8px}
-.f-mark{width:22px;height:22px;border-radius:5px;background:var(--grad);
-  display:grid;place-items:center}
+.f-mark{width:22px;height:22px;border-radius:5px;background:var(--grad);display:grid;place-items:center}
 .f-mark svg{width:13px;height:13px}
 .f-text{font-size:11px;color:var(--faint);font-family:'IBM Plex Mono',monospace}
 
@@ -226,7 +256,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 
 @media(max-width:640px){
   .topbar,.hero,.notice,.wrap,.footer{padding-left:16px;padding-right:16px}
-  .target-group,.dim-grid,.stats{grid-template-columns:1fr}
+  .target-group,.settings-grid,.stats{grid-template-columns:1fr}
   .btn-row{flex-direction:column}
   .tmpl-card{flex-direction:column;align-items:flex-start}
 }
@@ -261,8 +291,9 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
     <div class="eyebrow">Automation Portal</div>
     <h1>Image Asset <span>Download &amp; Processor</span></h1>
     <p class="hero-sub">
-      Download the template → fill in your CDN links → upload → get a processed ZIP.
-      Images are downloaded, resized to your dimensions, white-padded to a perfect square, and named for PXM or Seller Central upload.
+      Download the template → fill in CDN links → upload → get a processed ZIP.
+      Images are downloaded in parallel, resized to your dimensions, white-padded to a perfect square,
+      and named for PXM or Seller Central upload.
     </p>
   </div>
 </section>
@@ -270,8 +301,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 <!-- NOTICE -->
 <div class="notice">
   <div class="notice-text">
-    <strong>Note:</strong> Always verify the output before uploading to PXM or Seller Central.
-    Re-run if any source URLs have changed since your last download.
+    <strong>Note:</strong> Always verify output before uploading to PXM or Seller Central.
+    If any images fail, you will receive a highlighted Excel showing the exact failed URLs.
   </div>
 </div>
 
@@ -292,19 +323,19 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   <!-- ══ PANEL A: Configure + Upload ══ -->
   <div id="panel-a">
 
-    <!-- Template download -->
+    <!-- Template -->
     <div class="tmpl-card">
       <div class="tmpl-info">
         <div class="tmpl-icon">📥</div>
         <div>
           <div class="tmpl-title">Step 1 — Download &amp; Fill the Template</div>
-          <div class="tmpl-desc">CDN_Links_SPT_Deliverables.xlsx &nbsp;·&nbsp; Fill Master ID, MPN, Country Code, ASIN and Image URLs</div>
+          <div class="tmpl-desc">CDN_Links_SPT_Deliverables.xlsx &nbsp;·&nbsp; Fill Master ID, MPN, Country Code, ASIN, Image URLs</div>
         </div>
       </div>
       <a href="/template" class="btn-dl">⬇ Download Template</a>
     </div>
 
-    <!-- INPUT 1: Upload target -->
+    <!-- INPUT 1: Target -->
     <div class="card">
       <div class="card-hd">
         <div class="card-ico">🎯</div>
@@ -316,7 +347,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
           <span class="tog-radio"></span>
           <div class="tog-body">
             <strong>PXM</strong>
-            <small>Files named:<br>MasterID_MPN_Country_ISP01.jpg<br>MasterID_MPN_Country_LBL01.jpg</small>
+            <small>MasterID_MPN_Country_ISP01.jpg<br>MasterID_MPN_Country_LBL01.jpg</small>
           </div>
         </label>
         <label class="tog">
@@ -324,37 +355,46 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
           <span class="tog-radio"></span>
           <div class="tog-body">
             <strong>Seller Central</strong>
-            <small>Files named:<br>ASIN.MAIN.jpg / ASIN.PT01.jpg<br>ASIN.PS01.jpg</small>
+            <small>ASIN.MAIN.jpg / ASIN.PT01.jpg<br>ASIN.PS01.jpg</small>
           </div>
         </label>
       </div>
     </div>
 
-    <!-- INPUT 2 & 3: Min / Max dimensions -->
+    <!-- INPUTS 2, 3, 4: Dimensions + Workers -->
     <div class="card">
       <div class="card-hd">
-        <div class="card-ico">📐</div>
-        <div class="card-title">Input 2 &amp; 3 — Image Dimension Rules</div>
+        <div class="card-ico">⚙️</div>
+        <div class="card-title">Inputs 2, 3 &amp; 4 — Dimensions &amp; Speed</div>
       </div>
-      <div class="dim-grid">
+      <div class="settings-grid">
         <div>
-          <label class="fl" for="min-sz">Minimum dimension (px)</label>
+          <label class="fl" for="min-sz">Min dimension (px)</label>
           <input type="number" class="fc" id="min-sz" value="1000" min="100" max="9999" step="100">
-          <div class="fc-hint">Images smaller than this → upsized to fill this size</div>
+          <div class="fc-hint">Smaller images → upsized to this</div>
         </div>
         <div>
-          <label class="fl" for="max-sz">Maximum dimension (px)</label>
+          <label class="fl" for="max-sz">Max dimension (px)</label>
           <input type="number" class="fc" id="max-sz" value="2000" min="100" max="9999" step="100">
-          <div class="fc-hint">Images larger than this → downsized to this size</div>
+          <div class="fc-hint">Larger images → downsized to this</div>
+        </div>
+        <div class="workers-field">
+          <label class="fl" for="workers">Parallel workers</label>
+          <input type="number" class="fc" id="workers" value="{{ default_workers }}" min="1" max="32" step="1">
+          <div class="fc-hint">↑ More = faster  ·  Max 32</div>
         </div>
       </div>
       <div class="info-strip">
         Images between min–max → original size kept, white-padded to square.
-        All outputs are square JPGs (SDS files saved as PDF).
+        All outputs are square JPGs (SDS as PDF).
+      </div>
+      <div class="workers-tip">
+        ⚡ <strong>Speed tip:</strong> With your 900 Mbps connection, set workers to 20–25 for maximum speed.
+        Lower to 8–10 if you see errors (server rate-limiting). Each worker downloads + converts one file simultaneously.
       </div>
     </div>
 
-    <!-- File upload -->
+    <!-- Upload -->
     <div class="card">
       <div class="card-hd">
         <div class="card-ico">📂</div>
@@ -363,12 +403,12 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
       <div class="dropzone" id="dz">
         <input type="file" id="file-input" accept=".xlsx,.xlsm">
         <div class="dz-icon">📊</div>
-        <div class="dz-title">Drop your filled Excel file here, or <strong>click to browse</strong></div>
+        <div class="dz-title">Drop your filled Excel here, or <strong>click to browse</strong></div>
         <div class="dz-hint">.xlsx or .xlsm only &nbsp;·&nbsp; max 20 MB</div>
         <div id="fname-display"></div>
       </div>
       <div class="err-box" id="err-box">
-        <div class="err-title">⚠ Please fix these issues in your Excel file</div>
+        <div class="err-title">⚠ Fix these issues in your Excel file before uploading</div>
         <ul class="err-list" id="err-list"></ul>
       </div>
     </div>
@@ -392,6 +432,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
       </div>
       <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
       <div class="prog-file" id="prog-file">&nbsp;</div>
+      <div class="workers-badge" id="workers-badge">⚡ — workers running</div>
     </div>
   </div>
 
@@ -428,19 +469,40 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
         </tbody>
       </table>
 
-      <!-- PXM list (only for PXM mode) -->
+      <!-- PXM list -->
       <div id="pxm-wrap" class="hidden" style="margin-top:20px">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
           <span style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1.3px;font-family:'IBM Plex Mono',monospace">PXM Filename List</span>
           <button class="btn-secondary" id="btn-copy" style="width:auto;padding:6px 14px;font-size:11px">📋 Copy All</button>
         </div>
-        <div class="pxm-scroll" id="pxm-body"></div>
+        <div class="pxm-list" id="pxm-body"></div>
       </div>
 
-      <!-- Errors log -->
-      <div id="fail-wrap" class="err-box" style="margin-top:16px">
-        <div class="err-title">⚠ Files that failed to download</div>
-        <ul class="err-list" id="fail-list"></ul>
+      <!-- Failed links table -->
+      <div id="fail-section" class="fail-section hidden">
+        <div class="fail-hd">
+          <div class="fail-title">⚠ Failed URLs — <span id="fail-count">0</span> files could not be downloaded</div>
+          <button class="btn-danger" id="btn-dl-failures" style="padding:8px 16px;font-size:12px;width:auto">
+            📥 Download Highlighted Excel
+          </button>
+        </div>
+        <p style="font-size:11px;color:var(--faint);font-family:'IBM Plex Mono',monospace;margin-bottom:12px">
+          The Excel file below has failed URL cells highlighted in <span style="background:#FFCCCC;color:#CC0000;padding:1px 6px;border-radius:3px;font-weight:600">red</span>
+          with a "Failure Reason" column added at the end.
+        </p>
+        <div style="overflow-x:auto">
+          <table class="fail-tbl">
+            <thead>
+              <tr>
+                <th>Row</th>
+                <th>File</th>
+                <th>URL</th>
+                <th>Reason</th>
+              </tr>
+            </thead>
+            <tbody id="fail-tbody"></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -467,31 +529,20 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 </footer>
 
 <script>
-// ── State ─────────────────────────────────────
-let currentJobId = null;
-let pxmNames = [];
-
-// ── DOM ───────────────────────────────────────
+let currentJobId = null, pxmNames = [];
 const $ = id => document.getElementById(id);
 
-// ── File drop/select ──────────────────────────
-const dz = $('dz');
-const fi = $('file-input');
-
-fi.addEventListener('change', onFileSelected);
+// File select / drop
+const dz = $('dz'), fi = $('file-input');
+fi.addEventListener('change', onFile);
 dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
 dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
 dz.addEventListener('drop', e => {
   e.preventDefault(); dz.classList.remove('drag');
-  if (e.dataTransfer.files.length) {
-    fi.files = e.dataTransfer.files;
-    onFileSelected();
-  }
+  if (e.dataTransfer.files.length) { fi.files = e.dataTransfer.files; onFile(); }
 });
-
-function onFileSelected() {
-  const f = fi.files[0];
-  if (!f) return;
+function onFile() {
+  const f = fi.files[0]; if (!f) return;
   $('fname-display').textContent = `✓  ${f.name}  (${(f.size/1024/1024).toFixed(2)} MB)`;
   $('fname-display').style.display = 'block';
   dz.classList.add('has-file');
@@ -499,7 +550,7 @@ function onFileSelected() {
   $('err-box').style.display = 'none';
 }
 
-// ── Validate + Run ────────────────────────────
+// Validate + Run
 $('btn-go').addEventListener('click', async () => {
   if (!fi.files.length) return;
   $('btn-go').disabled = true;
@@ -513,7 +564,6 @@ $('btn-go').addEventListener('click', async () => {
   try {
     const vr = await fetch('/api/validate', { method: 'POST', body: fd });
     const vd = await vr.json();
-
     if (!vd.ok) {
       $('err-list').innerHTML = vd.errors.map(e => `<li>${e}</li>`).join('');
       $('err-box').style.display = 'block';
@@ -521,21 +571,23 @@ $('btn-go').addEventListener('click', async () => {
       $('go-spin').classList.add('hidden');
       return;
     }
-
     $('go-spin').classList.add('hidden');
 
+    const workers = parseInt($('workers').value) || 10;
     const jr = await fetch('/api/run', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         min_size: parseInt($('min-sz').value) || 1000,
         max_size: parseInt($('max-sz').value) || 2000,
+        num_workers: workers,
       })
     });
     const jd = await jr.json();
     if (jd.error) { alert(jd.error); $('btn-go').disabled = false; return; }
 
     currentJobId = jd.job_id;
+    $('workers-badge').textContent = `⚡ ${workers} workers running in parallel`;
     setStep(3);
     $('panel-a').classList.add('hidden');
     $('panel-b').classList.remove('hidden');
@@ -548,7 +600,7 @@ $('btn-go').addEventListener('click', async () => {
   }
 });
 
-// ── SSE Progress ──────────────────────────────
+// SSE Progress
 function streamProgress(jobId) {
   const es = new EventSource(`/api/stream/${jobId}`);
   es.onmessage = e => {
@@ -556,26 +608,21 @@ function streamProgress(jobId) {
     if (m.type === 'progress') {
       const pct = m.total > 0 ? Math.round(m.current / m.total * 100) : 0;
       $('prog-fill').style.width = pct + '%';
-      $('prog-pct').textContent = pct + '%';
+      $('prog-pct').textContent  = pct + '%';
       $('prog-label').textContent = `Processing ${m.current} of ${m.total} files…`;
-      $('prog-file').textContent = m.file || '';
+      $('prog-file').textContent  = m.file || '';
     }
-    if (m.type === 'done') {
-      es.close();
-      $('prog-fill').style.width = '100%';
-      showResults(m.result, jobId);
-    }
+    if (m.type === 'done') { es.close(); $('prog-fill').style.width = '100%'; showResults(m.result, jobId); }
     if (m.type === 'error') { es.close(); alert(m.message); }
   };
   es.onerror = () => es.close();
 }
 
-// ── Show Results ──────────────────────────────
+// Show Results
 function showResults(r, jobId) {
   setStep(4);
   $('panel-b').classList.add('hidden');
   $('panel-c').classList.remove('hidden');
-
   $('r-dl').textContent   = r.downloaded;
   $('r-fail').textContent = r.failed;
   $('r-tot').textContent  = r.total;
@@ -584,23 +631,33 @@ function showResults(r, jobId) {
   $('r-orig').textContent = r.kept_orig;
   $('r-dup').textContent  = r.duplicates;
 
+  // PXM list
   if (r.pxm_list && r.pxm_list.length) {
     pxmNames = r.pxm_list;
     $('pxm-body').innerHTML = r.pxm_list.map(f => `<p>${f}</p>`).join('');
     $('pxm-wrap').classList.remove('hidden');
   }
 
+  // Failures table
   if (r.errors_log && r.errors_log.length) {
-    $('fail-list').innerHTML = r.errors_log.map(e => `<li>${e}</li>`).join('');
-    $('fail-wrap').style.display = 'block';
-  } else {
-    $('fail-wrap').style.display = 'none';
+    $('fail-count').textContent = r.errors_log.length;
+    $('fail-tbody').innerHTML = r.errors_log.map(e => {
+      const shortUrl = e.url ? (e.url.length > 70 ? e.url.substring(0,70)+'…' : e.url) : '—';
+      return `<tr>
+        <td>${e.row}</td>
+        <td>${e.file || '—'}</td>
+        <td class="url-cell" title="${e.url || ''}">${shortUrl}</td>
+        <td class="reason-cell">${e.error || '—'}</td>
+      </tr>`;
+    }).join('');
+    $('fail-section').classList.remove('hidden');
+    $('btn-dl-failures').onclick = () => { window.location.href = `/api/download-failures/${jobId}`; };
   }
 
   $('btn-dl').onclick = () => { window.location.href = `/api/download/${jobId}`; };
 }
 
-// ── Copy PXM list ─────────────────────────────
+// Copy PXM
 $('btn-copy').addEventListener('click', () => {
   navigator.clipboard.writeText(pxmNames.join('\n')).then(() => {
     $('btn-copy').textContent = '✓ Copied!';
@@ -608,10 +665,8 @@ $('btn-copy').addEventListener('click', () => {
   });
 });
 
-// ── Restart ───────────────────────────────────
 $('btn-again').addEventListener('click', () => location.reload());
 
-// ── Step helper ───────────────────────────────
 function setStep(n) {
   [1,2,3,4].forEach(i => {
     const el = $(`s${i}`);
