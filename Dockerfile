@@ -1,11 +1,10 @@
 FROM python:3.11-slim
 
+# Only ghostscript needed now (for PDF, no ImageMagick)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    imagemagick ghostscript \
+    ghostscript \
+    libgl1 \
     && rm -rf /var/lib/apt/lists/*
-
-RUN sed -i 's/rights="none" pattern="PDF"/rights="read|write" pattern="PDF"/' \
-    /etc/ImageMagick-6/policy.xml 2>/dev/null || true
 
 WORKDIR /app
 COPY requirements.txt .
@@ -15,4 +14,4 @@ COPY . .
 RUN mkdir -p uploads
 
 EXPOSE 10000
-CMD ["gunicorn","app:app","--workers","2","--threads","4","--timeout","300","--bind","0.0.0.0:10000"]
+CMD ["gunicorn","app:app","--workers","1","--threads","4","--timeout","300","--bind","0.0.0.0:10000","--max-requests","100","--max-requests-jitter","20"]
